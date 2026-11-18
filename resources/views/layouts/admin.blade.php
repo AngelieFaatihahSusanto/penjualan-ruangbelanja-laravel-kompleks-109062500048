@@ -22,7 +22,7 @@
         ] as [$route, $label])
             @if(Route::has($route))
                 <a href="{{ route($route) }}"
-                   @if(request()->routeIs($route === 'admin.dashboard' ? $route : str_replace('.index', '.*', $route))) aria-current="page" @endif>{{ $label }}</a>
+                @if(request()->routeIs($route === 'admin.dashboard' ? $route : str_replace('.index', '.*', $route))) aria-current="page" @endif>{{ $label }}</a>
             @endif
         @endforeach
 
