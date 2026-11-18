@@ -6,12 +6,16 @@ use App\Http\Controllers\Admin\ShippingServiceController;
 use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerOrderController;
 use App\Http\Controllers\ProductCatalogController;
 use Illuminate\Support\Facades\Route;
 
+// Publik
 Route::get('/', [ProductCatalogController::class, 'index'])->name('shop.index');
 Route::get('/produk/{product:slug}', [ProductCatalogController::class, 'show'])->name('shop.show');
 
+// Guest
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
@@ -21,13 +25,20 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
+// Customer
 Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
     Route::post('/keranjang/{product}', [CartController::class, 'store'])->name('cart.store');
     Route::patch('/keranjang/{product}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/keranjang/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/pesanan', [CustomerOrderController::class, 'index'])->name('orders.index');
+    Route::get('/pesanan/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
 });
 
+// Admin
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     // SEMENTARA: diganti DashboardController di M7
     Route::get('/', fn () => view('layouts.admin'))->name('dashboard');
