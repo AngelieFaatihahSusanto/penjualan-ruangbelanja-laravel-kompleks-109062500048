@@ -27,7 +27,7 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-// Customer
+// Pelanggan
 Route::middleware(['auth', 'role:customer'])->group(function () {
     Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
     Route::post('/keranjang/{product}', [CartController::class, 'store'])->name('cart.store');
@@ -36,6 +36,7 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
     Route::get('/pesanan', [CustomerOrderController::class, 'index'])->name('orders.index');
     Route::get('/pesanan/{order}', [CustomerOrderController::class, 'show'])->name('orders.show');
 });
