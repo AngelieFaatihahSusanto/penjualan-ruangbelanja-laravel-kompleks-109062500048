@@ -23,4 +23,4 @@
     </table>
 </div>
 <div style="margin-top:18px">{{ $orders->links() }}</div>
-@endsection
+@endsection 
