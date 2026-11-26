@@ -1,0 +1,11 @@
+$kind: http-request
+name: New Request
+url: http://127.0.0.1:8000/api/v1/admin/orders/5/confirm
+method: PATCH
+headers:
+  Accept: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{admin_token}}"
+order: 9000
